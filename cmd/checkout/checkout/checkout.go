@@ -24,8 +24,19 @@ func (c *Checkout) Scan(item string) {
 
 func (c *Checkout) GetTotalPrice() int {
   totalPrice := 0
-  for k := range c.scannedItems {
-    totalPrice += c.pricingRules[k].UnitPrice
+  for k, v := range c.scannedItems {
+    totalPrice += calculateItemPrice(c.pricingRules[k], v)
   }
   return totalPrice
+}
+
+func calculateItemPrice(pricingRule PricingRule, quantity int) int {
+  if pricingRule.SpecialAmount > 0 && quantity >= pricingRule.SpecialAmount {
+    numberOfSpecialPriceItemGroups := quantity / pricingRule.SpecialAmount
+    numberOfRegularPriceItems := quantity % pricingRule.SpecialAmount
+
+    return (numberOfSpecialPriceItemGroups * pricingRule.SpecialPrice) + (numberOfRegularPriceItems * pricingRule.UnitPrice)
+  }
+
+  return quantity * pricingRule.UnitPrice
 }
