@@ -92,3 +92,34 @@ func TestScanMultiItemTypes(t *testing.T) {
 		t.Errorf("Expected total price %d, but got %d", expectedTotal, actualTotal)
 	}
 }
+
+func TestPriceModification(t *testing.T) {
+	pricingRules := map[string]PricingRule{
+		"A": {UnitPrice: 50, SpecialPrice: 130, SpecialAmount: 3},
+		"B": {UnitPrice: 30, SpecialPrice: 45, SpecialAmount: 2},
+		"C": {UnitPrice: 20},
+	}
+
+	newPricingRules := map[string]PricingRule{
+		"A": {UnitPrice: 50, SpecialPrice: 130, SpecialAmount: 3},
+		"B": {UnitPrice: 30, SpecialPrice: 45, SpecialAmount: 2},
+		"C": {UnitPrice: 2020},
+	}
+
+	checkout := NewCheckout(pricingRules)
+
+	checkout.Scan("A")
+	checkout.Scan("B")
+	checkout.Scan("C")
+	checkout.Scan("A")
+	checkout.Scan("A")
+
+  checkout.ModifyPricingRules(newPricingRules)
+
+	expectedTotal := 2180
+	actualTotal := checkout.GetTotalPrice()
+
+	if actualTotal != expectedTotal {
+		t.Errorf("Expected total price %d, but got %d", expectedTotal, actualTotal)
+	}
+}
