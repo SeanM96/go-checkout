@@ -114,7 +114,7 @@ func TestPriceModification(t *testing.T) {
 	checkout.Scan("A")
 	checkout.Scan("A")
 
-  checkout.ModifyPricingRules(newPricingRules)
+	checkout.ModifyPricingRules(newPricingRules)
 
 	expectedTotal := 2180
 	actualTotal := checkout.GetTotalPrice()

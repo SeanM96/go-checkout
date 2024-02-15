@@ -21,7 +21,7 @@ func NewCheckout(pricingRules map[string]PricingRule) *Checkout {
 }
 
 func (c *Checkout) ModifyPricingRules(newPricingRules map[string]PricingRule) {
-  c.pricingRules = newPricingRules
+	c.pricingRules = newPricingRules
 }
 
 func (c *Checkout) Scan(item string) {
