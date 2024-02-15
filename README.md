@@ -20,7 +20,7 @@ Checkout System is a Go implementation of a simple checkout system. It supports 
 
 ```bash
 git clone https://github.com/SeanM96/go-checkout.git
-cd go-checkout/cmd/checkout
+cd go-checkout/cmd
 go run main.go
 ```
 
